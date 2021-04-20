@@ -50,19 +50,24 @@ const Home = {
   template: `
   <div class="container">
     <div class="row">
-      <div class="col">
-        <h1>Buy and Sell Cars Online</h1>
-        <p>United Auto Sales provides the fastest easiest and most user friendly way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
-        <button type="submit" class="btn btn-primary">Register</button>
-        <button type="submit" class="btn btn-success">Login</button>
+      <div class="col justify-content-center align-self-center">
+        <div class="">
+          <h1 class="font-weight-bold">Buy and Sell Cars Online</h1>
+          <p>United Auto Sales provides the fastest easiest and most user friendly way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
+          <button type="submit" class="btn btn-primary w-25 mr-3">Register</button>
+          <button type="submit" class="btn btn-success w-25">Login</button>
+        </div>
       </div>
       <div class="col">
-        <img :src="'/images/adam-stefanca-hdMSxGizchk-unsplash.jpg'"/>
+        <img :src="img" class="img-fluid"/>
       </div>
+    </div>
   </div>
   `,
   data() {
-      return {}
+      return {
+        img: "static/images/adam-stefanca-hdMSxGizchk-unsplash.jpg"
+      }
   }
 };
 
