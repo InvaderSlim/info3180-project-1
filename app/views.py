@@ -6,11 +6,12 @@ This file creates your application.
 """
 
 import os
-from app import app
+from app import app, db
 from flask import render_template, request, redirect, url_for
 # from .forms import 
 from werkzeug.utils import secure_filename
-# from .models import 
+from .models import *
+# from werkzeug.security import check_password_hash 
 
 ###
 # Routing for your application.
