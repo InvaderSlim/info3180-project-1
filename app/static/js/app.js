@@ -9,7 +9,8 @@ const app = Vue.createApp({
 app.component('app-header', {
   name: 'AppHeader',
   template: `
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark nav-color fixed-top">
+    <i class="fas fa-car-alt text-white mr-3"></i>
     <a class="navbar-brand" href="#">United Auto Sales</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -48,7 +49,7 @@ app.component('app-footer', {
 const Home = {
   name: 'Home',
   template: `
-  <div class="container">
+  <div class="home">
     <div class="row">
       <div class="col justify-content-center align-self-center">
         <div class="">
@@ -74,40 +75,42 @@ const Home = {
 const NewUser = {   
   name: 'NewUser',
   template: `
-  <h1>Register New User</h1>
-  <form id="new-user" method="POST" enctype="multipart/form-data" class="border p-3 row g-3">
-      <div class="field-group col-md-6 mb-2">
-          <label for="username">Username</label>
-          <input type="text" name="username" id="username" class="form-control"/>
-      </div>
-      <div class="field-group col-md-6 mb-2">
-          <label for="password">Password</label>
-          <input type="text" name="password" id="password" class="form-control"/>
-      </div>
-      <div class="field-group col-md-6 mb-2">
-          <label for="name">Fullname</label>
-          <input type="text" name="name" id="name" class="form-control"/>
-      </div>
-      <div class="field-group col-md-6 mb-2">
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email" class="form-control"/>
-      </div>
-      <div class="field-group col-md-6 mb-2">
-          <label for="location">Location</label>
-          <input type="text" name="location" id="location" class="form-control"/>
-      </div>
-      <div class="field-group col-md-12 mb-2">
-          <label for="bio">Biography</label>
-          <textarea name="bio" id="bio" class="form-control"></textarea>
-      </div>
-      <div class="field-group col-md-12 mb-2">
-            <label for="photo">Upload Photo</label>
-            <input type="file" name="photo" id="photo" class="form-control-file"/>
-      </div>
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-success mt-2">Register</button>
-      </div>
-  </form>
+  <div class="">
+    <h1 class="my-4">Register New User</h1>
+    <form id="new-user" method="POST" enctype="multipart/form-data" class="border rounded p-3 row g-3">
+        <div class="field-group col-md-6 mb-2">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control"/>
+        </div>
+        <div class="field-group col-md-6 mb-2">
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password" class="form-control"/>
+        </div>
+        <div class="field-group col-md-6 mb-2">
+            <label for="name">Fullname</label>
+            <input type="text" name="name" id="name" class="form-control"/>
+        </div>
+        <div class="field-group col-md-6 mb-2">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" class="form-control"/>
+        </div>
+        <div class="field-group col-md-6 mb-2">
+            <label for="location">Location</label>
+            <input type="text" name="location" id="location" class="form-control"/>
+        </div>
+        <div class="field-group col-md-12 mb-2">
+            <label for="bio">Biography</label>
+            <textarea name="bio" id="bio" class="form-control"></textarea>
+        </div>
+        <div class="field-group col-md-12 mb-2">
+              <label for="photo">Upload Photo</label>
+              <input type="file" name="photo" id="photo" class="form-control-file"/>
+        </div>
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-success mt-2">Register</button>
+        </div>
+    </form>
+  </div>
   `,
   data() {
       return {
@@ -117,6 +120,24 @@ const NewUser = {
 
   }
 };
+
+const Login = {
+  name: 'Login',
+  template: `
+  <h1 class="my-4 text-center">Login to your account</h1>
+  <form id="login" method="POST" class="border p-3">
+      <div class="field-group mb-2">
+          <label for="make">Username</label>
+          <input type="text" name="username" id="username" class="form-control"/>
+      </div>
+      <div class="field-group mb-2">
+          <label for="model">Password</label>
+          <input type="text" name="password" id="password" class="form-control"/>
+      </div>
+      <button type="submit" class="btn btn-success mt-2">Login</button>
+  </form>
+  `
+}
 
 const NewCar = {   
   name: 'NewCar',
@@ -190,6 +211,7 @@ const routes = [
   { path: "/", component: Home },
   // Put other routes here
   { path: "/register", component: NewUser },
+  { path: "/login", component: Login },
   { path: "/cars/new", component: NewCar },
   // This is a catch all route in case none of the above matches
   { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
