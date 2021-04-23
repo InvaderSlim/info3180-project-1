@@ -1,12 +1,13 @@
 from . import db
-from werkzeug.security import generate_password_hash
+import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Users(db.Model):
     # You can use this to change the table name. The default convention is to use
     # the class name. In this case a class name of UserProfile would create a
     # user_profile (singular) table, but if we specify __tablename__ we can change it
     # to `user_profiles` (plural) or some other name.
-    __tablename__ = 'user'
+    __tablename__ = 't_user'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
@@ -15,12 +16,9 @@ class Users(db.Model):
     location = db.Column(db.String(255))
     biography = db.Column(db.String(255))
     photo = db.Column(db.String(80), unique=True)
-    date_joined = db.Column(db.DateTime)
-    
+    date_joined = db.Column(db.DateTime, default=datetime.date.today())
 
-
-
-    def __init__(self, username, password, email, location, biography, photo, date_joined):
+    def __init__(self, username, password, email, location, biography, photo):
         self.username = username
         self.password = generate_password_hash(password, method='pbkdf2:sha256')
         self.email = email
@@ -29,7 +27,8 @@ class Users(db.Model):
         self.photo = photo
         self.date_joined = date_joined
 
-
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
     
     def is_authenticated(self):
         return True
@@ -52,7 +51,7 @@ class Users(db.Model):
 
 
 class Cars(db.Model):
-    __tablename__ = 'cars'
+    __tablename__ = 't_cars'
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255))
@@ -64,7 +63,7 @@ class Cars(db.Model):
     car_type = db.Column(db.String(255))
     price = db.Column(db.Float)
     photo = db.Column(db.String(80), unique=True)
-    user_id = db.Column(db.Integer, foreign_key=True)
+    user_id = db.Column(db.Integer)
 
 
 
@@ -93,10 +92,10 @@ class Cars(db.Model):
 
 
 class Favourites(db.Model):
-    __tablename__ = 'favourites'
+    __tablename__ = 't_favourites'
 
     id = db.Column(db.Integer, primary_key=True)
-    car_id = db.Column(db.Integer, foreign_key=True)
+    car_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
 
     def __init__(self, car_id, user_id):
