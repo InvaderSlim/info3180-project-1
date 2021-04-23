@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, TextAreaField, SelectField, DecimalField, PasswordField, EmailField
+from wtforms import StringField, TextAreaField, SelectField, DecimalField, PasswordField
 from wtforms.validators import DataRequired, Email
 
 class NewUser(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators = [DataRequired()])
     fullname = StringField('Fullname', validators=[DataRequired()])
-    email = EmailField('Email', validators=[Email(message=('Invalid email address.')), DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     biography = TextAreaField('Biography', validators=[DataRequired()])
     photo = FileField('Photo', validators=[FileRequired(), FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
