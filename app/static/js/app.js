@@ -213,6 +213,71 @@ const NewCar = {
   }
 };
 
+const user = {
+  name: 'user',
+  template: `
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-2">
+        <img :src="" alt="Profile Photo" width="500" height="600">
+      </div>
+    <div class="col-8">
+      <h2 class="display-4">{Name} </h2>
+      <h4>{Username}</h4>
+      <p>{Biography}</p>
+      <h6>Email:     </h6>
+      <h6>Location:     </h6>
+      <h6>Date joined:     </h6>
+      <p hidden>{{ $route.params.id }}</p>
+  
+    </div>
+    </div>
+  </div>
+
+  <h1>Cars favorited</h1><br>
+
+
+  <div class="row">
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Discription}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Discription}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Discription}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+    
+  `,
+  data() {
+      return {}
+  }
+};
+
+
 const NotFound = {
   name: 'NotFound',
   template: `
@@ -232,6 +297,8 @@ const routes = [
   { path: "/register", component: NewUser },
   { path: "/login", component: Login },
   { path: "/cars/new", component: NewCar },
+  //{ path: "/user", component: user },
+  { path: "/user/:id", component: user },
   // This is a catch all route in case none of the above matches
   { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
 ];
