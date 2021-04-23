@@ -55,7 +55,7 @@ const Home = {
         <div class="">
           <h1 class="font-weight-bold">Buy and Sell Cars Online</h1>
           <p>United Auto Sales provides the fastest easiest and most user friendly way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
-          <button type="submit" class="btn btn-primary w-25 mr-3">Register</button>
+          <button type="button" @click="$router.push('register')" class="btn btn-primary w-25 mr-3">Register</button>
           <button type="submit" class="btn btn-success w-25">Login</button>
         </div>
       </div>
@@ -77,7 +77,7 @@ const NewUser = {
   template: `
   <div class="">
     <h1 class="my-4">Register New User</h1>
-    <form id="new-user" method="POST" enctype="multipart/form-data" class="border rounded p-3 row g-3">
+    <form id="new-user" @submit.prevent="regForm" method="POST" enctype="multipart/form-data" class="border rounded p-3 row g-3">
         <div class="field-group col-md-6 mb-2">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" class="form-control"/>
@@ -117,7 +117,26 @@ const NewUser = {
       }
   },
   methods: {
-
+    regForm: function(){
+      let self = this;
+      let new_user = document.getElementById('new-user');
+      let form_data = new FormData(new_user);
+      fetch("/api/register",
+        {
+          method: 'POST', body: form_data,
+          headers: { 'X-CSRFToken': token },
+          credentials: 'same-origin'
+        }).then(function (response) {
+            return response.json();
+          }).then(function (jsonResponse) {
+            console.log(jsonResponse);
+            self.messages = jsonResponse;
+            alert("User Registered!")
+            router.push("login")
+          }).catch(function (error) {
+              console.log(error);
+            });
+    }
   }
 };
 

@@ -7,16 +7,50 @@ This file creates your application.
 
 import os
 from app import app, db
-from flask import render_template, request, redirect, url_for
-# from .forms import 
+from flask import render_template, request, redirect, jsonify
+from .forms import NewUser
 from werkzeug.utils import secure_filename
 from .models import *
+import uuid
 # from werkzeug.security import check_password_hash 
 
 ###
 # Routing for your application.
 ###
 
+@app.route('/api/register', methods=['POST'])
+def register():
+    user = NewUser()
+    message = [{"errors": "critical error"}]
+    if request.method == 'POST':
+        user.username.data = request.form['username']
+        user.password.data = request.form['password']
+        user.name.data = request.form['name']
+        user.email.data = request.form['email']
+        user.location.data = request.form['location']
+        user.biography.data = request.form['bio']
+        user.photo.data = request.files['photo']
+        message = [{"errors": form_errors(user)}]
+
+        if user.validate_on_submit():
+            username = user.username.data
+            password = user.password.data
+            name = user.name.data
+            email = user.email.data
+            location = user.location.data
+            biography = user.biography.data
+            profile_photo = user.photo.data
+
+            filename = genUniqueFileName(profile_photo.filename)
+            userDB = Users(username, password, name, email, location, biography, filename)
+            db.session.add(userDB)
+            db.session.commit()
+            profile_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            message = [{"message": "Successful Registered!"}]
+
+    message = jsonify(message=message)
+    return message
 
 
 @app.route('/', defaults={'path': ''})
@@ -52,6 +86,29 @@ def send_text_file(file_name):
     return app.send_static_file(file_dot_text)
 
 
+def form_errors(form):
+    error_messages = []
+    """Collects form errors"""
+    for field, errors in form.errors.items():
+        for error in errors:
+            message = u"Error in the %s field - %s" % (
+                    getattr(form, field).label.text,
+                    error
+                )
+            error_messages.append(message)
+
+    return error_messages
+
+
+def genUniqueFileName(old_filename):
+    filename = str(uuid.uuid4())
+    ext = old_filename.split(".")
+    ext = ext[1]
+    new_filename = filename + "." + ext
+    new_filename = new_filename.replace('-', '_')
+    return new_filename
+
+
 @app.after_request
 def add_header(response):
     """
@@ -68,7 +125,3 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-
-
-if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port="8080")

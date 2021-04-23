@@ -12,20 +12,21 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(255))
+    name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     location = db.Column(db.String(255))
     biography = db.Column(db.String(255))
     photo = db.Column(db.String(80), unique=True)
     date_joined = db.Column(db.DateTime, default=datetime.date.today())
 
-    def __init__(self, username, password, email, location, biography, photo):
+    def __init__(self, username, password, name, email, location, biography, photo):
         self.username = username
         self.password = generate_password_hash(password, method='pbkdf2:sha256')
+        self.name = name
         self.email = email
         self.location = location
         self.biography = biography
         self.photo = photo
-        self.date_joined = date_joined
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
