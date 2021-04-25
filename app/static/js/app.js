@@ -260,6 +260,63 @@ const NewCar = {
   }
 };
 
+const Explore = {
+  name: 'Explore',
+  template: `
+  <h2>Explore</h2>
+  <div class="jumbotron  mx-sm-3 mb-sm-2">  
+    <div class="form-inline d-flex justify-content-center">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Make" />
+        <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Model" />
+        <button class="btn btn-primary mb-2"
+        @click="searchExplore">Search</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  `,
+  data() {
+      return {}
+  }
+};
+
+
 const user = {
   name: 'user',
   template: 
@@ -429,6 +486,7 @@ const routes = [
   { path: "/register", component: NewUser },
   { path: "/login", component: Login },
   { path: "/cars/new", component: NewCar },
+  { path: "/explore", component: Explore },
   //{ path: "/user", component: user },
   { path: "/user/:user_id", component: user },
   // This is a catch all route in case none of the above matches

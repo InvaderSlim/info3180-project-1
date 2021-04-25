@@ -122,6 +122,16 @@ def addCar():
     message = jsonify(message=message)
     return message
 
+@app.route('/api/search', methods=["GET"])
+def search():
+    headers = {
+    'Accept': 'application/json'
+    }
+    request = Request('', headers=headers)
+
+    response_body = urlopen(request).read()
+    print response_body
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
@@ -133,7 +143,6 @@ def index(path):
     Also we will render the initial webpage and then let VueJS take control.
     """
     return render_template('index.html')
-
 
 ###
 # The functions below should be applicable to all Flask apps.
