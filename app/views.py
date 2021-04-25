@@ -66,6 +66,16 @@ def index(path):
     return render_template('index.html')
 
 
+@app.route('/api/search', methods=["GET"])
+def search():
+    headers = {
+    'Accept': 'application/json'
+    }
+    request = Request('', headers=headers)
+
+    response_body = urlopen(request).read()
+    print response_body
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
