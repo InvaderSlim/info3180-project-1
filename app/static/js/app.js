@@ -84,7 +84,7 @@ const NewUser = {
         </div>
         <div class="field-group col-md-6 mb-2">
           <label for="password">Password</label>
-          <input type="text" name="password" id="password" class="form-control"/>
+          <input type="password" name="password" id="password" class="form-control"/>
         </div>
         <div class="field-group col-md-6 mb-2">
           <label for="name">Fullname</label>
@@ -144,18 +144,54 @@ const Login = {
   name: 'Login',
   template: `
   <h1 class="my-4 text-center">Login to your account</h1>
-  <form id="login" method="POST" class="border p-3">
+  <form id="login-form" @submit.prevent="loginForm" method="POST" class="border p-3">
       <div class="field-group mb-2">
           <label for="make">Username</label>
           <input type="text" name="username" id="username" class="form-control"/>
       </div>
       <div class="field-group mb-2">
           <label for="model">Password</label>
-          <input type="text" name="password" id="password" class="form-control"/>
+          <input type="password" name="password" id="password" class="form-control"/>
       </div>
       <button type="submit" class="btn btn-success mt-2">Login</button>
   </form>
-  `
+  `,
+  data: function() {
+     return {
+         messages: '',
+         token: ''
+     }
+  },
+
+  methods: {
+    loginForm: function(){
+      let self = this;
+      let log_form = document.getElementById('login-form');
+      let form_data = new FormData(log_form);
+      fetch(
+        "/api/auth/login", { method: 'POST', body: form_data,
+        headers: { 'X-CSRFToken': token }, credentials: 'same-origin'
+      }).then(function (response) {
+            return response.json();
+          }).then(function (jsonResponse) {
+                // display a success message
+                console.log(jsonResponse);
+                self.messages = jsonResponse;
+                let jwt_token = jsonResponse.data.token;
+
+                // We store this token in sessionStorage so that subsequent API requests
+                // can use the token until it expires or is deleted.
+                sessionStorage.setItem('token', jwt_token);
+                console.info('Token generated and added to sessionStorage.');
+                self.token = jwt_token;
+                alert("Logged In!")
+                router.push("explore")
+                location.reload()
+              }).catch(function (error) {
+                  console.log(error);
+              });
+    }
+  }
 }
 
 const NewCar = {   

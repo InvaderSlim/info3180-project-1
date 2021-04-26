@@ -159,15 +159,15 @@ def addCar():
     message = jsonify(message=message)
     return message
 
-@app.route('/api/search', methods=["GET"])
-def search():
-    headers = {
-    'Accept': 'application/json'
-    }
-    request = Request('', headers=headers)
+# @app.route('/api/search', methods=["GET"])
+# def search():
+#     headers = {
+#     'Accept': 'application/json'
+#     }
+#     request = Request('', headers=headers)
 
-    response_body = urlopen(request).read()
-    print response_body
+#     response_body = urlopen(request).read()
+#     print response_body
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():

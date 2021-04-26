@@ -4,11 +4,11 @@ import uuid
 class Config(object):
     """Base Config Object"""
     DEBUG = False
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'Som3$ec5etK*y'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or str(uuid.uuid4())
     SALT = os.environ.get('FLASK_SALT') or str(uuid.uuid4())
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql://yourusername:yourpassword@localhost/databasename'
     SQLALCHEMY_TRACK_MODIFICATIONS = False # This is just here to suppress a warning from SQLAlchemy as it will soon be removed
-    UPLOAD_FOLDER = './uploads'
+    UPLOAD_FOLDER = '.app/static/uploads'
 
 class DevelopmentConfig(Config):
     """Development Config that extends the Base Config Object"""
