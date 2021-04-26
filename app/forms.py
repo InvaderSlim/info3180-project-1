@@ -22,3 +22,7 @@ class NewCar(FlaskForm):
     transmission = StringField('Transmission', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     photo = FileField('Photo', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators = [DataRequired()])

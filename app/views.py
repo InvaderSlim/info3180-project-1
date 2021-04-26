@@ -8,15 +8,52 @@ This file creates your application.
 import os
 from app import app, db
 from flask import render_template, request, redirect, jsonify
-from .forms import NewUser
+from .forms import NewUser, LoginForm
 from werkzeug.utils import secure_filename
 from .models import *
 import uuid
 # from werkzeug.security import check_password_hash 
 
+# Using JWT
+import jwt
+from flask import _request_ctx_stack
+from functools import wraps
+import base64
+
 ###
 # Routing for your application.
 ###
+
+def requires_auth(f):
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    auth = request.headers.get('Authorization', None)
+    if not auth:
+      return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+
+    parts = auth.split()
+
+    if parts[0].lower() != 'bearer':
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+    elif len(parts) == 1:
+      return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+    elif len(parts) > 2:
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+
+    token = parts[1]
+    try:
+         payload = jwt.decode(token, app.config['SALT'])
+
+    except jwt.ExpiredSignature:
+        return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+    except jwt.DecodeError:
+        return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+
+    g.current_user = user = payload
+    return f(*args, **kwargs)
+
+  return decorated
+
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -49,6 +86,31 @@ def register():
 
             message = [{"message": "Successful Registered!"}]
 
+    message = jsonify(message=message)
+    return message
+
+
+@app.route('/api/auth/login', methods=['POST'])
+def login():
+    form = LoginForm()
+    message = [{"errors": "Invalid request"}]
+    if request.method == "POST":
+        form.username.data = request.form['username']
+        form.password.data = request.form['password']
+        message = [{"errors": form_errors(form)}]
+
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+            user = Users.query.filter_by(username=username).first()
+
+            if user is not None:
+                if user.verify_password(password):
+                    payload = {'id': user.id, 'username': user.username}
+                    token = jwt.encode(payload, app.config['SALT'], algorithm='HS256').decode('utf-8')
+
+                    return jsonify(data={'token': token}, message="Token Generated and User Logged In")
+            message = [{"errors": "Failed to Log In"}]
     message = jsonify(message=message)
     return message
 
