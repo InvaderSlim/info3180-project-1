@@ -178,15 +178,17 @@ const Login = {
                 console.log(jsonResponse);
                 self.messages = jsonResponse;
                 let jwt_token = jsonResponse.data.token;
+                let userid = jsonResponse.data.userid;
+                self.userid = userid;
 
                 // We store this token in sessionStorage so that subsequent API requests
                 // can use the token until it expires or is deleted.
                 sessionStorage.setItem('token', jwt_token);
+                sessionStorage.setItem('userid', userid);
                 console.info('Token generated and added to sessionStorage.');
                 self.token = jwt_token;
                 alert("Logged In!")
                 router.push("explore")
-                location.reload()
               }).catch(function (error) {
                   console.log(error);
               });
@@ -198,7 +200,7 @@ const NewCar = {
   name: 'NewCar',
   template: `
   <h1>Add New Car</h1>
-  <form id="new-car" method="POST" enctype="multipart/form-data" class="border p-3 row g-3">
+  <form id="new-car" @submit.prevent="carForm" method="POST" enctype="multipart/form-data" class="border p-3 row g-3">
       <div class="field-group mb-2 col-md-6">
         <label for="make">Make</label>
         <input type="text" name="make" id="make" class="form-control"/>
@@ -254,6 +256,10 @@ const NewCar = {
         <label for="photo">Upload Photo</label>
         <input type="file" name="photo" id="photo" class="form-control-file"/>
       </div>
+      <div class="hiden">
+        <label for="userid"></label>
+        <input name="userid" type="hidden" v-bind:value="userid"></input>
+      </div>
       <div class="col-md-12">
         <button type="submit" class="btn btn-success mt-2">Save</button>
       </div>
@@ -266,18 +272,13 @@ const NewCar = {
   methods: {
     carForm: function(){
       let self = this;
+      console.log(self.userid)
       let new_car = document.getElementById('new-car');
       let form_data = new FormData(new_car);
-      fetch("/api/cars",
-        {
-          method: 'POST', 
-          body: form_data,
-          headers: { 
-            'X-CSRFToken': token 
-            // 'Authorization': 'Bearer ' 
-          },
-          credentials: 'same-origin'
-        }).then(function (response) {
+      fetch(
+        "/api/cars", { method: 'POST', body: form_data,
+        headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('token'), 'X-CSRFToken': token }
+      }).then(function (response) {
             return response.json();
         }).then(function (jsonResponse) {
           console.log(jsonResponse);

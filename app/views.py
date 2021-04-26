@@ -120,39 +120,45 @@ def userProfile(user_id):
         return jsonify(username=username, name=name, email=email, location=location, biography=biography, photo=photo, date_joined=date_joined)
 
 
+
 @app.route('/api/cars', methods=['POST', 'GET'])
 def addCar():
     car = NewCar()
     message = [{"errors": "critical error"}]
-
     if request.method == 'POST':
         car.make.data = request.form['make']
         car.model.data = request.form['model']
         car.colour.data = request.form['colour']
         car.year.data = request.form['year']
-        car.price.data = request.form['price']
-        car.type.data = request.form['type']
+        car.price.data = float(request.form['price'])
+        car.car_type.data = request.form['type']
         car.transmission.data = request.form['transmission']
         car.description.data = request.form['desc']
+        car.userid.data = int(request.form['userid'])
         car.photo.data = request.files['photo']
         message = [{"errors": form_errors(car)}]
-
-        if user.validate_on_submit():
+        print(f'**\n{car.errors}\n')
+        if car.validate_on_submit():
+            description = car.description.data 
             make = car.make.data 
             model = car.model.data 
             colour = car.colour.data 
             year = car.year.data 
-            price = car.price.data 
-            car_type = car.type.data 
             transmission = car.transmission.data
-            description = car.description.data 
-            car_photo = car.photo.data 
+            car_type = car.car_type.data
+            price = car.price.data
+            userid = car.userid.data
+            car_photo = car.photo.data
+            print("***")
 
             filename = genUniqueFileName(car_photo.filename)
-            carDB = Cars()
+            carDB = Cars(
+                description, make, model, colour, year,
+                transmission, car_type, price, userid
+            )
             db.session.add(carDB)
             db.session.commit()
-            profile_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            car_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             message = [{"message": "Your car has been successfully added."}]
 
@@ -187,8 +193,8 @@ def login():
                 if user.verify_password(password):
                     payload = {'id': user.id, 'username': user.username}
                     token = jwt.encode(payload, app.config['SALT'], algorithm='HS256').decode('utf-8')
-
-                    return jsonify(data={'token': token}, message="Token Generated and User Logged In")
+                    userid = user.get_id()
+                    return jsonify(data={'token': token, 'userid': userid}, message="Token Generated and User Logged In")
             message = [{"errors": "Failed to Log In"}]
     message = jsonify(message=message)
     return message

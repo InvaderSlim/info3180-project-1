@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, TextAreaField, SelectField, DecimalField, PasswordField
+from wtforms import (
+    StringField, TextAreaField, SelectField,
+    DecimalField, PasswordField, IntegerField
+    )
 from wtforms.validators import DataRequired, Email
 
 class NewUser(FlaskForm):
@@ -22,6 +25,7 @@ class NewCar(FlaskForm):
     transmission = SelectField(u'Transmission', choices=[('Automatic', 'Automatic'), ('Manual', 'Manual'), ('CVT', 'CVT'), ('Semi-manual', 'Semi-manual'), ('Other', 'Other')], validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     photo = FileField('Photo', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    userid = IntegerField('Price', validators=[DataRequired()])
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
