@@ -8,7 +8,7 @@ This file creates your application.
 import os
 from app import app, db
 from flask import render_template, request, redirect, jsonify
-from .forms import NewUser, LoginForm
+from .forms import NewUser, LoginForm, NewCar
 from werkzeug.utils import secure_filename
 from .models import *
 import uuid
@@ -89,6 +89,85 @@ def register():
     message = jsonify(message=message)
     return message
 
+@app.route('/api/users/<user_id>', methods=['GET'])
+def userProfile(user_id):
+    if request.method == 'GET':
+        # user = Users.query.filter_by(id=user_id).first()
+        # username = user.username
+        # name = user.name
+        # email = user.email
+        # location = user.location
+        # biography = user.biography
+        # photo = user.photo
+        # day = user.date_joined.day
+        # month = user.date_joined.strftime("%B")
+        # year = user.date_joined.year
+        # date_joined = str(month) + " " + str(day) + ", " + str(year)
+        # return jsonify(username=username, name=name, email=email, location=location, biography=biography, photo=photo, date_joined=date_joined)
+
+        user = Users.query.get(int(user_id))
+        username = Users.query.get(username)
+        name = Users.query.get(name)
+        email = Users.query.get(email)
+        location = Users.query.get(location)
+        biography = Users.query.get(biography)
+        photo = Users.query.get(photo)
+        date_joined = Users.query.get(date_joined)
+        day = date_joined.day
+        month = date_joined.strftime("%B")
+        year = date_joined.year
+        date_joined = str(month) + " " + str(day) + ", " + str(year)
+        return jsonify(username=username, name=name, email=email, location=location, biography=biography, photo=photo, date_joined=date_joined)
+
+
+@app.route('/api/cars', methods=['POST', 'GET'])
+def addCar():
+    car = NewCar()
+    message = [{"errors": "critical error"}]
+
+    if request.method == 'POST':
+        car.make.data = request.form['make']
+        car.model.data = request.form['model']
+        car.colour.data = request.form['colour']
+        car.year.data = request.form['year']
+        car.price.data = request.form['price']
+        car.type.data = request.form['type']
+        car.transmission.data = request.form['transmission']
+        car.description.data = request.form['desc']
+        car.photo.data = request.files['photo']
+        message = [{"errors": form_errors(car)}]
+
+        if user.validate_on_submit():
+            make = car.make.data 
+            model = car.model.data 
+            colour = car.colour.data 
+            year = car.year.data 
+            price = car.price.data 
+            car_type = car.type.data 
+            transmission = car.transmission.data
+            description = car.description.data 
+            car_photo = car.photo.data 
+
+            filename = genUniqueFileName(car_photo.filename)
+            carDB = Cars()
+            db.session.add(carDB)
+            db.session.commit()
+            profile_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            message = [{"message": "Your car has been successfully added."}]
+
+    message = jsonify(message=message)
+    return message
+
+@app.route('/api/search', methods=["GET"])
+def search():
+    headers = {
+    'Accept': 'application/json'
+    }
+    request = Request('', headers=headers)
+
+    response_body = urlopen(request).read()
+    print response_body
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():
@@ -126,7 +205,6 @@ def index(path):
     Also we will render the initial webpage and then let VueJS take control.
     """
     return render_template('index.html')
-
 
 ###
 # The functions below should be applicable to all Flask apps.

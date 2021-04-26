@@ -56,7 +56,7 @@ const Home = {
           <h1 class="font-weight-bold">Buy and Sell Cars Online</h1>
           <p>United Auto Sales provides the fastest easiest and most user friendly way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
           <button type="button" @click="$router.push('register')" class="btn btn-primary w-25 mr-3">Register</button>
-          <button type="submit" class="btn btn-success w-25">Login</button>
+          <button type="button" @click="$router.push('login')" class="btn btn-success w-25">Login</button>
         </div>
       </div>
       <div class="col">
@@ -79,32 +79,32 @@ const NewUser = {
     <h1 class="my-4">Register New User</h1>
     <form id="new-user" @submit.prevent="regForm" method="POST" enctype="multipart/form-data" class="border rounded p-3 row g-3">
         <div class="field-group col-md-6 mb-2">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control"/>
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" class="form-control"/>
         </div>
         <div class="field-group col-md-6 mb-2">
-            <label for="password">Password</label>
-            <input type="text" name="password" id="password" class="form-control"/>
+          <label for="password">Password</label>
+          <input type="text" name="password" id="password" class="form-control"/>
         </div>
         <div class="field-group col-md-6 mb-2">
-            <label for="name">Fullname</label>
-            <input type="text" name="name" id="name" class="form-control"/>
+          <label for="name">Fullname</label>
+          <input type="text" name="name" id="name" class="form-control"/>
         </div>
         <div class="field-group col-md-6 mb-2">
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" class="form-control"/>
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email" class="form-control"/>
         </div>
         <div class="field-group col-md-6 mb-2">
-            <label for="location">Location</label>
-            <input type="text" name="location" id="location" class="form-control"/>
+          <label for="location">Location</label>
+          <input type="text" name="location" id="location" class="form-control"/>
         </div>
         <div class="field-group col-md-12 mb-2">
-            <label for="bio">Biography</label>
-            <textarea name="bio" id="bio" class="form-control"></textarea>
+          <label for="bio">Biography</label>
+          <textarea name="bio" id="bio" class="form-control"></textarea>
         </div>
         <div class="field-group col-md-12 mb-2">
-              <label for="photo">Upload Photo</label>
-              <input type="file" name="photo" id="photo" class="form-control-file"/>
+          <label for="photo">Upload Photo</label>
+          <input type="file" name="photo" id="photo" class="form-control-file"/>
         </div>
         <div class="col-md-12">
           <button type="submit" class="btn btn-success mt-2">Register</button>
@@ -135,7 +135,7 @@ const NewUser = {
             router.push("login")
           }).catch(function (error) {
               console.log(error);
-            });
+          });
     }
   }
 };
@@ -162,34 +162,53 @@ const NewCar = {
   name: 'NewCar',
   template: `
   <h1>Add New Car</h1>
-  <form id="new-user" method="POST" enctype="multipart/form-data" class="border p-3 row g-3">
+  <form id="new-car" method="POST" enctype="multipart/form-data" class="border p-3 row g-3">
       <div class="field-group mb-2 col-md-6">
-          <label for="make">Make</label>
-          <input type="text" name="make" id="make" class="form-control"/>
+        <label for="make">Make</label>
+        <input type="text" name="make" id="make" class="form-control"/>
       </div>
       <div class="field-group mb-2 col-md-6">
-          <label for="model">Model</label>
-          <input type="text" name="model" id="model" class="form-control"/>
+        <label for="model">Model</label>
+        <input type="text" name="model" id="model" class="form-control"/>
       </div>
       <div class="field-group mb-2 col-md-6">
-          <label for="colour">Colour</label>
-          <input type="text" name="colour" id="colour" class="form-control"/>
+        <label for="colour">Colour</label>
+        <input type="text" name="colour" id="colour" class="form-control"/>
       </div>
       <div class="field-group mb-2 col-md-6">
-          <label for="year">Year</label>
-          <input type="text" name="year" id="year" class="form-control"/>
+        <label for="year">Year</label>
+        <input type="text" name="year" id="year" class="form-control"/>
       </div>
       <div class="field-group mb-2 col-md-6">
-          <label for="price">Price</label>
-          <input type="text" name="price" id="price" class="form-control"/>
+        <label for="price">Price</label>
+        <input type="text" name="price" id="price" class="form-control"/>
+      </div>
+      <div class="field-group mb-2 col-md-6">        
+        <label for="type">Car Type</label>
+        <select name="type" id="type" class="form-control">
+          <option value="suv">SUV</option>
+          <option value="sedan">Sedan</option>
+          <option value="coupe">Coupe</option>
+          <option value="sports">Sports</option>
+          <option value="wagon">Station Wagon</option>
+          <option value="hatchback">Hatchback</option>
+          <option value="convertible">Convertible</option>
+          <option value="minivan">Minivan</option>
+          <option value="pickup">Pickup</option>
+          <option value="crossover">Crossover</option>
+          <option value="compact">Compact</option>
+          <option value="other">Other</option>
+        </select>
       </div>
       <div class="field-group mb-2 col-md-6">
-          <label for="type">Car Type</label>
-          <input name="type" id="type" class="form-control"/>
-      </div>
-      <div class="field-group mb-2 col-md-6">
-            <label for="transmission">Transmission</label>
-            <input type="text" name="transmission" id="transmission" class="form-control"/>
+        <label for="transmission">Transmission</label>
+        <select name="transmission" id="transmission" class="form-control">
+          <option value="automatic">Automatic</option>
+          <option value="manual">Manual</option>
+          <option value="cvt">CVT</option>
+          <option value="semi">Semi-automatic</option>
+          <option value="other">Other</option>
+        </select>
       </div>
       <div class="field-group mb-2 col-md-12">
         <label for="type">Description</label>
@@ -209,11 +228,246 @@ const NewCar = {
       }
   },
   methods: {
+    carForm: function(){
+      let self = this;
+      let new_car = document.getElementById('new-car');
+      let form_data = new FormData(new_car);
+      fetch("/api/cars",
+        {
+          method: 'POST', 
+          body: form_data,
+          headers: { 
+            'X-CSRFToken': token 
+            // 'Authorization': 'Bearer ' 
+          },
+          credentials: 'same-origin'
+        }).then(function (response) {
+            return response.json();
+        }).then(function (jsonResponse) {
+          console.log(jsonResponse);
+          self.messages = jsonResponse;
+          alert("New car added.")
+          router.push("home")
+        }).catch(function (error) {
+            console.log(error);
+        });
+    },
 
+    // redirect: function() {
+    //   this.$router.push('/'); 
+    // }
+    // @click="redirect()"
   }
 };
 
-const NotFound = {
+const Explore = {
+  name: 'Explore',
+  template: `
+  <h2>Explore</h2>
+  <div class="jumbotron  mx-sm-3 mb-sm-2">  
+    <div class="form-inline d-flex justify-content-center">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Make" />
+        <input type="search" name="search" v-model="searchTerm" id="search" class="form-control mb-2 mr-sm-2" placeholder="Model" />
+        <button class="btn btn-primary mb-2"
+        @click="searchExplore">Search</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card">
+     <img class="card-img-top" src="" alt="Car image">
+      <div class="card-body">
+        <h5 class="card-title">{Name}       {price}</h5>
+        <p class="card-text">{Description}</p>
+        <a href="#" class="btn btn-primary">Veiw Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  `,
+  data() {
+      return {}
+  }
+};
+
+
+const user = {
+  name: 'user',
+  template: 
+  `
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-2">
+        <img :src="" alt="Profile Photo" width="500" height="600">
+      </div>
+      <div class="col-8">
+        <h2 class="display-4">{Name} </h2>
+        <h4>{Username}</h4>
+        <p>{Biography}</p>
+        <h6>Email:     </h6>
+        <h6>Location:     </h6>
+        <h6>Date joined:     </h6>
+        <p hidden>{{ $route.params.user_id }}</p>
+      </div>
+    </div>
+  </div>
+
+  <h1>Cars favorited</h1><br>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+      <img class="card-img-top" src="" alt="Car image">
+        <div class="card-body">
+          <h5 class="card-title">{Name}       {price}</h5>
+          <p class="card-text">{Discription}</p>
+          <a href="#" class="btn btn-primary">Veiw Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+      <img class="card-img-top" src="" alt="Car image">
+        <div class="card-body">
+          <h5 class="card-title">{Name}       {price}</h5>
+          <p class="card-text">{Discription}</p>
+          <a href="#" class="btn btn-primary">Veiw Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top" src="" alt="Car image">
+        <div class="card-body">
+          <h5 class="card-title">{Name}       {price}</h5>
+          <p class="card-text">{Discription}</p>
+          <a href="#" class="btn btn-primary">Veiw Details</a>
+        </div>
+      </div>
+    </div>
+  </div> 
+  `,
+
+  // <div class="jumbotron">
+  //   <div class="row">
+  //     <div class="col-2">
+  //       <img :src="" alt="Profile Photo" width="500" height="600">
+  //     </div>
+  //     <div class="col-8">
+  //       <h2 class="display-4">{{name}}</h2>
+  //       <h4>{{username}}</h4>
+  //       <p>{{biography}}</p>
+  //       <h6>Email:     {{email}}</h6>
+  //       <h6>Location:     {{location}}</h6>
+  //       <h6>Date joined:     {{date_joined}}</h6>
+  //       <p hidden>{{ $route.params.user_id }}</p>
+  //     </div>
+  //   </div>
+  // </div>
+
+  // <h1>Cars favorited</h1><br>
+
+  // <div class="row">
+  //   <div class="col-sm-4">
+  //     <div class="card">
+  //     <img class="card-img-top" src="" alt="Car image">
+  //       <div class="card-body">
+  //         <h5 class="card-title">{Name}       {price}</h5>
+  //         <p class="card-text">{Discription}</p>
+  //         <a href="#" class="btn btn-primary">Veiw Details</a>
+  //       </div>
+  //     </div>
+  //   </div>
+  //   <div class="col-sm-4">
+  //     <div class="card">
+  //     <img class="card-img-top" src="" alt="Car image">
+  //       <div class="card-body">
+  //         <h5 class="card-title">{Name}       {price}</h5>
+  //         <p class="card-text">{Discription}</p>
+  //         <a href="#" class="btn btn-primary">Veiw Details</a>
+  //       </div>
+  //     </div>
+  //   </div>
+  //   <div class="col-sm-4">
+  //     <div class="card">
+  //       <img class="card-img-top" src="" alt="Car image">
+  //       <div class="card-body">
+  //         <h5 class="card-title">{Name}       {price}</h5>
+  //         <p class="card-text">{Discription}</p>
+  //         <a href="#" class="btn btn-primary">Veiw Details</a>
+  //       </div>
+  //     </div>
+  //   </div>
+  // </div> 
+  // `,
+
+  data: function()  {
+    return {
+  //     username: '',
+  //     name: '',
+  //     email: '',
+  //     location: '',
+  //     biography: '',
+  //     photo: '',
+  //     date_joined: ''
+    }
+  // },
+  // created: function(){
+  //   this.profile();
+  // },
+  // methods: {
+  //   profile: function(){
+  //     let self = this;
+  //     fetch("/api/users/" + user_id,
+  //       {
+  //         method: 'GET',
+  //         // headers: {'Authorization': 'Bearer '},
+  //         // credentials: 'same-origin'
+  //       }).then(function (response) {
+  //           return response.json();
+  //         }).then(function (jsonResponse) {
+  //           self.username = jsonResponse.username;
+  //           self.name = jsonResponse.name;
+  //           self.email = jsonResponse.email;
+  //           self.location = jsonResponse.location;
+  //           self.biography = jsonResponse.biography;
+  //           self.photo = jsonResponse.photo;
+  //           self.date_joined = jsonResponse.date_joined;
+  //         }).catch(function (error) {
+  //             console.log(error);
+  //         });
+  //   }
+  }
+};
+
+
+const NotFound = {      
   name: 'NotFound',
   template: `
   <div>
@@ -232,6 +486,9 @@ const routes = [
   { path: "/register", component: NewUser },
   { path: "/login", component: Login },
   { path: "/cars/new", component: NewCar },
+  { path: "/explore", component: Explore },
+  //{ path: "/user", component: user },
+  { path: "/user/:user_id", component: user },
   // This is a catch all route in case none of the above matches
   { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
 ];
